@@ -17,7 +17,6 @@
 
 - has_many :orders
 - has_many :items
-- has_one :address
 
 
 ## items テーブル
@@ -36,7 +35,7 @@
 
 ### Association
 
-- belongs_to :users
+- belongs_to :user
 - has_one :order
 - belongs_to :category
 - belongs_to :status
@@ -54,8 +53,8 @@
 
 ### Association
 
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
 - has_one : address
 
 
@@ -70,11 +69,10 @@
 | building           | string     |             |建物名・部屋番号
 | phone              | string     | null: false |電話番号
 | user               | references | null: false, foreign_key: true |
+| order              | references | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :users
-- belongs_to :items
 - belongs_to :order
 - belongs_to :prefecture
 
