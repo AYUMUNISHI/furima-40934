@@ -11,40 +11,60 @@
 | first_name         | string        | null: false |名前
 | last_name_kana     | string        | null: false |苗字（カナ）
 | first_name_kana    | string        | null: false |名前（カナ）
-| birthday           | date_select   | null: false |誕生日
+| birthday           | date          | null: false |誕生日
 
 ### Association
 
-- has_many :users
+- has_many :orders
 - has_many :items
+- has_one :address
 
 
 ## items テーブル
 
 | Column             | Type    | Options     |
 | ------------------ | ------  | ----------- |
-| products           | string  | null: false |商品名
+| product            | string  | null: false |商品名
 | description        | text    | null: false |商品の説明
-| categories         | string  | null: false |カテゴリー
-| status_id          | string  | null: false |状態
-| freight            | string  | null: false |送料
-| prefecture_id      | string  | null: false |都道府県
-| shipping_date      | string  | null: false |日数
-| price              | decimal | null: false |値段
+| category_id        | integer | null: false |カテゴリー
+| status_id          | integer | null: false |状態
+| freight_id         | integer | null: false |送料
+| prefecture_id      | integer | null: false |都道府県
+| shipping_date_id   | integer | null: false |日数
+| price              | integer | null: false |値段
 | user               | references | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :user
-- has_one :orders
+- belongs_to :users
+- has_one :order
+- belongs_to :category
+- belongs_to :status
+- belongs_to :freight
+- belongs_to :prefecture
+- belongs_to :shipping_date
 
 
 ## orders テーブル
 
 | Column             | Type       | Options                        |
 | ------             | ---------- | ------------------------------ |
+| user               | references | null: false, foreign_key: true |
+| item               | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :users
+- belongs_to :items
+- has_one : address
+
+
+## addresses テーブル
+
+| Column             | Type       | Options                        |
+| ------             | ---------- | ------------------------------ |
 | postcode           | string     | null: false |郵便番号
-| prefecture_id      | string     | null: false |都道府県
+| prefecture_id      | integer    | null: false |都道府県
 | city               | string     | null: false |市町村
 | block              | string     | null: false |番地
 | building           | string     |             |建物名・部屋番号
@@ -53,5 +73,8 @@
 
 ### Association
 
-- belongs_to :user
+- belongs_to :users
 - belongs_to :items
+- belongs_to :order
+- belongs_to :prefecture
+
