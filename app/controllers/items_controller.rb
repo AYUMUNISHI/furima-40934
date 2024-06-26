@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_action :move_to_signed_in, except: [:index]
+
   def index
     @items = Item.includes(:user)
   end
@@ -20,5 +22,11 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:product,:image, :description, :category_id, :status_id, :freight_id, :prefecture_id, :shipping_date_id, :price, :user).merge(user_id: current_user.id)
+end
+def move_to_signed_in
+  unless user_signed_in?
+    #サインインしていないユーザーはログインページが表示される
+    redirect_to  '/users/sign_in'
+  end
 end
 end
