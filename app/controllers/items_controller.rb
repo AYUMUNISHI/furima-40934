@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :move_to_signed_in, except: [:index]
 
   def index
-    @items = Item.includes(:user)
+    # @items = Item.includes(:user)
   end
 
   def new
@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:product,:image, :description, :category_id, :status_id, :freight_id, :prefecture_id, :shipping_date_id, :price, :user).merge(user_id: current_user.id)
+    params.require(:item).permit(:product,:image, :description, :category_id, :status_id, :freight_id, :prefecture_id, :shipping_date_id, :price, ).merge(user_id: current_user.id)
 end
 def move_to_signed_in
   unless user_signed_in?

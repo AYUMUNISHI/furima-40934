@@ -14,7 +14,6 @@ class Item < ApplicationRecord
 
  validates :product, :description, :price, :image, presence: true 
  validates :category_id, :status_id, :freight_id, :prefecture_id, :shipping_date_id, numericality: { other_than: 1 } 
- validates :price, format: { with: /\A[ -~｡-ﾟ]*\z/, message: "は半角文字のみで入力してください" }
  validates :price, numericality: {
   only_integer: true,
   greater_than_or_equal_to: 300,

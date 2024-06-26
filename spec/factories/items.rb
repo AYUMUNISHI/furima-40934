@@ -4,7 +4,6 @@ FactoryBot.define do
     transient do
       person {Gimei.name}
     end
-    image                 {}
     product               {Faker::Name.initials(number: 5)}
     description           {Faker::Lorem.sentence}
     category_id           {2}
