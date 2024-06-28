@@ -130,15 +130,14 @@
       <% if Item.exists?%>
       <% @items.each do |item| %>
       <li class='list'>
-        <%= link_to "#" do %>
         <div class='item-img-content'>
-          <%= image_tag item.image, class: "item-img" %>
+          <%= link_to image_tag(item.image, class: "item-img"), item_path(item) %>
           
-          <% unless @item == @order %>
+          <%# <% unless @item == @order %> 
           <div class='sold-out'>
             <span>Sold Out!!</span>
           </div>
-          <% end %>
+          <%# <% end %> 
 
         </div>
         <div class='item-info'>
@@ -153,7 +152,6 @@
             </div>
           </div>
         </div>
-        <% end %>
         <% end %>
       </li>
       

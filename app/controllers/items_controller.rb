@@ -1,8 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :move_to_signed_in, except: [:index]
+  before_action :move_to_signed_in, except: [:index, :show]
 
   def index
-    @items = Item.all
     @items = Item.includes(:user).order("created_at DESC")
   end
 
@@ -15,9 +14,12 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path
     else
-      @items = Item.includes(:user)
       render :new, status: :unprocessable_entity
     end 
+  end
+
+  def show
+    # @item = Item.find(params[:id])
   end
 
   private
