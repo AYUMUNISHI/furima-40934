@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
+  before_action :set_item, except: [:index, :new, :create]
   before_action :move_to_signed_in, except: [:index, :show]
+  before_action :contributor_confirmation, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.includes(:user).order("created_at DESC")
@@ -19,7 +21,21 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
+   
+  end
+
+  def edit
+   
+  end
+
+  def update
+    
+    if @item.update(item_params)
+      redirect_to item_path(@item)
+    else
+      render :edit, status: :unprocessable_entity
+      
+    end
   end
 
   private
@@ -33,4 +49,13 @@ def move_to_signed_in
     redirect_to  '/users/sign_in'
   end
 end
+
+def set_item
+  @item = Item.find(params[:id])
+end
+
+def contributor_confirmation
+  redirect_to root_path unless current_user == @item.user
+end
+
 end
