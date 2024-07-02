@@ -27,6 +27,11 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Postcode is invalid. Include hyphen(-)')
       end
+      it 'postcodeが半角の正しい形式でないと保存できないこと' do
+        @order_address.postcode = '１２３－４５６７'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Postcode is invalid. Include hyphen(-)')
+      end
       it 'prefecture_idが1だと保存できないこと' do
         @order_address.prefecture_id = 1
         @order_address.valid?
@@ -57,8 +62,8 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Phone is invalid')
       end
-      it 'phoneの11桁ないと保存できない' do
-        @order_address.phone = '0805111111'
+      it 'phoneの10桁か11桁ないと保存できない' do
+        @order_address.phone = '080511111111'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Phone is invalid')
       end
@@ -68,7 +73,12 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include('Phone is invalid')
       end
       it 'phoneの5文字目から11文字目が数字以外は保存できない' do
-        @order_address.phone = '050-ssss-1111'
+        @order_address.phone = '050ssss1111'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include('Phone is invalid')
+      end
+      it 'phoneは全角数字は保存できない' do
+        @order_address.phone = '０８０１１１１１１１１'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include('Phone is invalid')
       end
@@ -76,6 +86,11 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.user_id = nil
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("User can't be blank")
+      end
+      it "tokenが空では登録できないこと" do
+        @order_address.token = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
