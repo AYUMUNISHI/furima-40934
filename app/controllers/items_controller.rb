@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :set_item, except: [:index, :new, :create]
   before_action :move_to_signed_in, except: [:index, :show]
   before_action :contributor_confirmation, only: [:edit, :update, :destroy]
+  before_action :order_present, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.includes(:user).order("created_at DESC")
@@ -21,9 +22,12 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @order = Order.new
+    # @orders = @item.orders
   end
 
   def edit
+    
   end
 
   def destroy
@@ -61,7 +65,12 @@ def set_item
 end
 
 def contributor_confirmation
-  redirect_to root_path unless current_user == @item.user
+  redirect_to root_path unless current_user == @item.user 
+end
+def order_present
+  if  @item.order.present?
+    redirect_to root_path
+  end
 end
 
 end
