@@ -91,3 +91,7 @@ gem 'active_hash'
 gem 'payjp'
 gem 'gon'
 gem 'jquery-turbolinks'
+
+group :production do
+  gem 'unicorn', '6.1.0'
+end
